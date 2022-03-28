@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { ItalianDictionaryService } from './italian-dictionary.service';
 import { LetterComponent } from './letter/letter.component';
 import { MessengerService } from './messenger.service';
@@ -6,44 +13,39 @@ import { MessengerService } from './messenger.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [MessengerService, ItalianDictionaryService]
+  providers: [MessengerService, ItalianDictionaryService],
 })
 export class AppComponent implements OnInit, AfterViewInit {
-
   alphabet: string[] = [];
   wordToGuess: string[] = [];
   clicked: boolean = false;
   liferemaining!: number;
   shouldUncoverSlot: boolean[] = [];
   victory: number = 0;
-  isLetterActive!: boolean;
   show: boolean = false;
   youWin: boolean = false;
   youLose: boolean = false;
 
-  @ViewChildren('letter') listOfLetter!: QueryList<ElementRef>;
-  
-  constructor(private messenger: MessengerService , private dict: ItalianDictionaryService) {
-  }
+  constructor(
+    private messenger: MessengerService,
+    private dict: ItalianDictionaryService
+  ) {}
 
   ngOnInit(): void {
     this.alphabet = this.messenger.alphabetInItalian;
     this.liferemaining = this.messenger.lifeRemaining;
-    
   }
 
-  ngAfterViewInit(): void {
-    console.log("This is the list of letters ViewChildren " + this.listOfLetter);
-  }
+  ngAfterViewInit(): void {}
 
   startGame() {
-    this.wordToGuess = this.dict.getWord().map(char => {return char.toUpperCase()});
+    this.wordToGuess = this.dict.getWord().map((char) => {
+      return char.toUpperCase();
+    });
     for (let i = 0; i < this.wordToGuess.length; i++) {
       this.shouldUncoverSlot.push(false);
     }
     this.clicked = true;
-    
-   
   }
 
   resetGame() {
@@ -51,23 +53,19 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.liferemaining = this.messenger.lifeRemaining;
     this.shouldUncoverSlot = [];
     this.clicked = false;
-    
-
+    this.victory = 0;
   }
 
   checkIfAmThere(letterFired: string) {
-    if(this.wordToGuess.includes(letterFired)) {
+    if (this.wordToGuess.includes(letterFired)) {
       this.wordToGuess.forEach((element, index) => {
-        if(element === letterFired) {
+        if (element === letterFired) {
           this.shouldUncoverSlot[index] = true;
           this.victory++;
-          
         }
       });
-    }
-    else {
+    } else {
       this.liferemaining--;
-      
     }
     if (this.liferemaining === 0) {
       this.youLose = true;
@@ -84,13 +82,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       }, 2000);
     }
 
-    console.log("Victory is " + this.victory);
+    console.log('Victory is ' + this.victory);
   }
 
   showWord() {
     this.show = !this.show;
   }
-
-
-
 }

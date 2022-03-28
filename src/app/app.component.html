@@ -12,25 +12,18 @@
       <span *ngIf="show"> {{ wordToGuess.toString() }}</span>
     </div>
     <div class="col">
-      <button
-        class="btn btn-danger"
-        (click)="resetGame()"
-      >
-        Reset
-      </button>
+      <button class="btn btn-danger" (click)="resetGame()">Reset</button>
     </div>
   </div>
   <!-- Game Sections -->
   <div class="row riga-due">
-      <!-- Drawing and lifebar -->
+    <!-- Drawing and lifebar -->
     <div class="col-6">
       <h3>Here goes the drawing</h3>
       <div class="life">
         {{ liferemaining }}
       </div>
-      <div class="drawing">
-        
-      </div>
+      <div class="drawing"></div>
     </div>
     <!-- Word to guess  -->
     <div class="col-6">
@@ -42,15 +35,14 @@
       ></app-slot>
     </div>
   </div>
-<!-- KeyBoard Section -->
+  <!-- KeyBoard Section -->
   <div class="row riga-tre">
     <div class="col-10">
       <div class="wrapper">
         <app-letter
-        (clickFired)="checkIfAmThere($event)"
+          (clickFired)="checkIfAmThere($event)"
           *ngFor="let letter of alphabet; index as i"
           [value]="alphabet[i]"
-          
         ></app-letter>
       </div>
     </div>
